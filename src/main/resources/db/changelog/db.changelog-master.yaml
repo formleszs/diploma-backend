@@ -3,3 +3,9 @@ databaseChangeLog:
       file: db/changelog/changes/001-init.yaml
   - include:
      file: db/changelog/changes/002-add-profile-fields.yaml
+  - include:
+      file: db/changelog/changes/003-create-projects.yaml
+  - include:
+      file: db/changelog/changes/004-create-project-files.yaml
+  - include:
+      file: db/changelog/changes/005-create-project-texts.yaml
