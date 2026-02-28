@@ -1,12 +1,13 @@
 package com.studysync.controller;
 
-import com.studysync.entity.User;
+import com.studysync.entity.dto.request.CreateProjectRequest;
 import com.studysync.entity.dto.response.CreateProjectResponse;
 import com.studysync.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,42 +18,33 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping
     public CreateProjectResponse createProject(
-            @RequestParam("name") String name,
-            @RequestParam("files") MultipartFile[] files,
+            @Valid @RequestBody CreateProjectRequest request,
             Authentication authentication
     ) {
-
-        return projectService.createProject(
-                name,
-                files,
-                authentication.getName()
-        );
-    }
-
-    @GetMapping("/{id}")
-    public CreateProjectResponse getProject(@PathVariable("id") Long id) {
-        return projectService.getProjectById(id);
+        return projectService.createProject(request.getName(), authentication.getName());
     }
 
     @GetMapping
-    public List<CreateProjectResponse> getMyProjects() {
-        return projectService.getProjectsForCurrentUser();
+    public List<CreateProjectResponse> getMyProjects(Authentication authentication) {
+        return projectService.getMyProjects(authentication.getName());
     }
 
-    @GetMapping("/{id}/text")
-    public String getProjectText(@PathVariable("id") Long id) {
-        return projectService.getProjectText(id);
+    @GetMapping("/{id}")
+    public CreateProjectResponse getProject(
+            @PathVariable("id") Long id,
+            Authentication authentication
+    ) {
+        return projectService.getProjectById(id, authentication.getName());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable("id") Long id) {
-        projectService.deleteProject(id);
-    }
-
-    @PostMapping("/{id}/topics/generate")
-    public String generateTopics(@PathVariable("id") Long id) {
-        return projectService.generateTopics(id);
+    public ResponseEntity<Void> deleteProject(
+            @PathVariable("id") Long id,
+            Authentication authentication
+    ) {
+        projectService.deleteProject(id, authentication.getName());
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-lecture-texts
+      author: studysync
+      changes:
+        - createTable:
+            tableName: lecture_texts
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: lecture_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: lecture_texts
+            baseColumnNames: lecture_id
+            referencedTableName: lectures
+            referencedColumnNames: id
+            constraintName: fk_lecture_text_lecture
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: lecture_texts
+            columnNames: lecture_id
+            constraintName: uk_lecture_text_lecture

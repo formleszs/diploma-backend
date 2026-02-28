@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-lecture-files
+      author: studysync
+      changes:
+        - createTable:
+            tableName: lecture_files
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: lecture_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: original_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stored_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_type
+                  type: VARCHAR(100)
+              - column:
+                  name: size
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: lecture_files
+            baseColumnNames: lecture_id
+            referencedTableName: lectures
+            referencedColumnNames: id
+            constraintName: fk_lecture_files_lecture
+            onDelete: CASCADE
+
+        - createIndex:
+            tableName: lecture_files
+            indexName: idx_lecture_files_lecture
+            columns:
+              - column:
+                  name: lecture_id

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-drop-old-project-content
+      author: studysync
+      changes:
+        - dropTable:
+            tableName: project_files
+            cascadeConstraints: true
+        - dropTable:
+            tableName: project_texts
+            cascadeConstraints: true

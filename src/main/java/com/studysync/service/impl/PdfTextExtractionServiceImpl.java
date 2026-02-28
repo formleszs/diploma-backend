@@ -14,20 +14,23 @@ import java.io.IOException;
 public class PdfTextExtractionServiceImpl implements PdfTextExtractionService {
 
     @Override
-    public String extractText(File file) {
-
-        try (PDDocument document = PDDocument.load(file)) {
-
+    public String extractText(File pdfFile) {
+        try (PDDocument doc = PDDocument.load(pdfFile)) {
             PDFTextStripper stripper = new PDFTextStripper();
-            String text = stripper.getText(document);
-
-            log.info("Extracted {} characters from PDF {}", text.length(), file.getName());
-
-            return text;
-
+            String text = stripper.getText(doc);
+            log.info("Extracted {} chars from PDF {}", (text == null ? 0 : text.length()), pdfFile.getName());
+            return text == null ? "" : text;
         } catch (IOException e) {
-            log.error("Failed to extract text from PDF {}", file.getName(), e);
             throw new RuntimeException("PDF text extraction failed", e);
+        }
+    }
+
+    @Override
+    public int countPages(File pdfFile) {
+        try (PDDocument doc = PDDocument.load(pdfFile)) {
+            return doc.getNumberOfPages();
+        } catch (IOException e) {
+            throw new RuntimeException("PDF page count failed", e);
         }
     }
 }
