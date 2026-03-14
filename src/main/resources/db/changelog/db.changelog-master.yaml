@@ -17,3 +17,7 @@ databaseChangeLog:
       file: db/changelog/changes/008-create-lecture-texts.yaml
   - include:
       file: db/changelog/changes/009-drop-old-project-content.yaml
+  - include:
+      file: db/changelog/changes/010-create-lecture-summaries.yaml
+  - include:
+      file: db/changelog/changes/011-create-lecture-flashcards.yaml

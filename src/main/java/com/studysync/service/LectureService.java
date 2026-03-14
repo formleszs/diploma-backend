@@ -14,11 +14,17 @@ public interface LectureService {
 
     LectureResponse getLecture(Long lectureId, String userEmail);
 
+    LectureDetailResponse getLectureDetail(Long lectureId, String userEmail);
+
     LectureTextResponse getLectureText(Long lectureId, String userEmail);
+
+    LectureTextResponse updateLectureText(Long lectureId, String content, String userEmail);
+
+    List<LectureFileResponse> getLectureFiles(Long lectureId, String userEmail);
 
     SummaryResponse generateLectureSummary(Long lectureId, String userEmail);
 
-    FlashcardsResponse generateLectureFlashcards(Long lectureId, String userEmail);
-
     QuizLockedResponse getLectureQuiz(Long lectureId, String userEmail);
+
+    void deleteLecture(Long lectureId, String userEmail);
 }

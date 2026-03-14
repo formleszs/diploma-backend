@@ -54,4 +54,7 @@ public class Lecture {
             createdAt = LocalDateTime.now();
         }
     }
+
+    @OneToOne(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private LectureSummary lectureSummary;
 }

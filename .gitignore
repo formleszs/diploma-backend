@@ -4,3 +4,5 @@ uploads/
 *.iml
 .DS_Store
 *.log
+.gigaide
+.env

@@ -5,10 +5,15 @@ spring:
   application:
     name: studySync
 
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+
   datasource:
     url: jdbc:postgresql://localhost:5432/studysync
     username: postgres
-    password:
+    password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -27,12 +32,25 @@ spring:
 app:
   upload:
     avatar-dir: ./uploads/avatars
+    lecture-dir: ./uploads/lectures
   jwt:
-    # base64-encoded 256-bit secret
-    secret:
+    secret: ${JWT_SECRET}
     expires-minutes: 1440
 
 logging:
   level:
+    com.studysync: DEBUG
+    org.springframework.web: INFO
+    org.springframework.web.multipart: DEBUG
     org.springframework.security: INFO
 
+ai:
+  openrouter:
+    enabled: true
+    base-url: https://openrouter.ai/api/v1
+    api-key: ${OPENROUTER_API_KEY:}
+    referer: http://localhost:5173
+    title: StudySync
+    vision-model: openai/gpt-4o
+    vision-fallback-model: openai/gpt-4o
+    text-model: openai/gpt-4o-mini

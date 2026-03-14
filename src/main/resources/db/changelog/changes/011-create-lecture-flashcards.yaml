@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-create-lecture-flashcards
+      author: studysync
+      changes:
+        - createTable:
+            tableName: lecture_flashcards
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: lecture_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: answer
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sort_order
+                  type: INT
+                  defaultValueNumeric: 0
+              - column:
+                  name: is_user_created
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: studied
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: lecture_flashcards
+            baseColumnNames: lecture_id
+            referencedTableName: lectures
+            referencedColumnNames: id
+            constraintName: fk_flashcard_lecture
+            onDelete: CASCADE
