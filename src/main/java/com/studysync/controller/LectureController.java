@@ -1,8 +1,10 @@
 package com.studysync.controller;
 
+import com.studysync.entity.dto.request.QuizSubmitRequest;
 import com.studysync.entity.dto.request.UpdateLectureTextRequest;
 import com.studysync.entity.dto.response.*;
 import com.studysync.service.LectureService;
+import com.studysync.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 public class LectureController {
 
     private final LectureService lectureService;
+    private final QuizService quizService;
 
     @PostMapping("/api/projects/{projectId}/lectures")
     public LectureResponse createLecture(
@@ -96,11 +99,20 @@ public class LectureController {
     }
 
     @GetMapping("/api/lectures/{lectureId}/quiz")
-    public QuizLockedResponse quiz(
+    public QuizResponse getQuiz(
             @PathVariable("lectureId") Long lectureId,
             Authentication authentication
     ) {
-        return lectureService.getLectureQuiz(lectureId, authentication.getName());
+        return quizService.getQuiz(lectureId, authentication.getName());
+    }
+
+    @PostMapping("/api/lectures/{lectureId}/quiz/submit")
+    public QuizSubmitResponse submitQuiz(
+            @PathVariable("lectureId") Long lectureId,
+            @RequestBody QuizSubmitRequest request,
+            Authentication authentication
+    ) {
+        return quizService.submitQuiz(lectureId, request, authentication.getName());
     }
 
     @DeleteMapping("/api/lectures/{lectureId}")

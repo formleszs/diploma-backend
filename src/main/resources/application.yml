@@ -53,4 +53,4 @@ ai:
     title: StudySync
     vision-model: openai/gpt-4o
     vision-fallback-model: openai/gpt-4o
-    text-model: openai/gpt-4o-mini
+    text-model: openai/gpt-4o
